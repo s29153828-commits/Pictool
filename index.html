@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pictool</title>
+<style>
+body{font-family:system-ui;background:#111;color:#fff;text-align:center;padding:20px}
+.box{max-width:400px;margin:auto;background:#222;padding:20px;border-radius:15px}
+input,button{width:100%;padding:12px;margin:10px 0;border-radius:10px;border:none}
+button{background:#00ff88;color:#000;font-weight:bold}
+img{max-width:100%;margin-top:15px;border-radius:10px}
+</style>
+</head>
+<body>
+<div class="box">
+<h2>Pictool</h2>
+<p>Image Compress & Resize</p>
+<input type="file" id="file" accept="image/*">
+<button onclick="compress()">Compress & Download</button>
+<img id="preview">
+<canvas id="canvas" style="display:none"></canvas>
+</div>
+<script>
+let img=new Image();
+document.getElementById('file').onchange=e=>{
+  let url=URL.createObjectURL(e.target.files[0]);
+  img.src=url;
+  document.getElementById('preview').src=url;
+}
+function compress(){
+  let c=document.getElementById('canvas');
+  c.width=800; c.height=img.height*(800/img.width);
+  c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+  let a=document.createElement('a');
+  a.download='compressed.jpg';
+  a.href=c.toDataURL('image/jpeg',0.6);
+  a.click();
+}
+</script>
+</body>
+</html>
